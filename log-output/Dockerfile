@@ -1,8 +1,18 @@
-FROM node:26-alpine
+# Use Node.js version 20 as the base image
+FROM node:26
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-WORKDIR /app/
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-COPY main.ts .
+# Install dependencies
+RUN npm install
 
-CMD [ "main.ts" ]
+# Copy the rest of the application code
+COPY . .
 
+# Build the application
+RUN npm run build
+
+CMD ["npm","run","start"]
