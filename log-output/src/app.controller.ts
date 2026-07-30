@@ -9,4 +9,9 @@ export class AppController {
   getCode(): string {
     return this.appService.getCode();
   }
+
+  @Get("/pingpong")
+  pingPong(): string {
+    return this.appService.pingPong();
+  }
 }

@@ -7,6 +7,13 @@ export class AppService {
 
   randomString = (Math.random() * 0xFFFFFFFFFFFFF).toString(16).slice(0, 10);
 
+  private pingPongCount = 0;
+
+  pingPong() : string {
+    return "pong " + String(this.pingPongCount++);
+  }
+  
+  
   getCode() : string {
     return this.generateCode();
   }
