@@ -10,8 +10,4 @@ export class AppController {
     return this.appService.getCode();
   }
 
-  @Get("/pingpong")
-  pingPong(): string {
-    return this.appService.pingPong();
-  }
 }
