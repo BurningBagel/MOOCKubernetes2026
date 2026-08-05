@@ -12,7 +12,19 @@ spec:
       labels:
         app: log-output
     spec:
+      volumes:
+        - name: shared-text
+          emptyDir: {}
       containers:
-        - name: log-output
-          image: log-output:latest
+        - name: frontend
+          image: frontend:latest
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: shared-text
+              mountPath: /usr/src/app/files
+        - name: backend
+          image: backend:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: shared-text
+              mountPath: /usr/src/app/files
