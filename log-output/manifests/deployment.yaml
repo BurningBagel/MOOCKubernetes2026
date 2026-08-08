@@ -13,6 +13,9 @@ spec:
         app: log-output
     spec:
       volumes:
+        - name: ping-pong-count
+          persistentVolumeClaim:
+            claimName: ping-pong-claim
         - name: shared-text
           emptyDir: {}
       containers:

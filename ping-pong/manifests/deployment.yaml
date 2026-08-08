@@ -12,6 +12,10 @@ spec:
       labels:
         app: ping-pong
     spec:
+      volumes:
+        - name: ping-pong-count
+          persistentVolumeClaim:
+            claimName: ping-pong-claim
       containers:
         - name: ping-pong
           image: ping-pong:latest
