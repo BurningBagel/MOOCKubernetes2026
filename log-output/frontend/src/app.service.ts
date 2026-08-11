@@ -17,11 +17,13 @@ export class AppService {
 
   content = "";
 
+
   async updateContent() {
     
     while(true){
       try {
         fs.readFile(this.filePath, 'utf8', (err, data) =>{
+          this.content = "";
           this.content = data;
         });
         
@@ -35,8 +37,11 @@ export class AppService {
 
   
   getCode() : string {
+
+    let answer = "";
+    
     try {
-      this.content += '<p>ping pong counter = ' + fs.readFileSync(this.pingpongFilePath, {encoding: 'utf8', flag: 'r'} + '</p>');
+      answer = this.content.concat('<p>ping pong counter = ',fs.readFileSync(this.pingpongFilePath, {encoding: 'utf8', flag: 'r'},'</p>'));
       
     } catch (error) {
       console.log(error)
@@ -46,7 +51,7 @@ export class AppService {
     // });
 
 
-    return this.content;
+    return answer;
   }
 
 
