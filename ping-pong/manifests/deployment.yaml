@@ -20,3 +20,6 @@ spec:
         - name: ping-pong
           image: ping-pong:latest
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: ping-pong-count
+              mountPath: /usr/src/app/count

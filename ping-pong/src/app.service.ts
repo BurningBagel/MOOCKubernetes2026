@@ -5,7 +5,7 @@ const path = require('path');
 @Injectable()
 export class AppService {
 
-  private directory = path.join('/', 'tmp', 'kube')
+  private directory = path.join('/', 'usr', 'src', 'app','count')
   private filePath = path.join(this.directory, 'pingpongcount.txt')
 
   private pingPongCounter = 0;

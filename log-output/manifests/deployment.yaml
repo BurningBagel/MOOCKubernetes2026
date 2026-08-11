@@ -25,6 +25,8 @@ spec:
           volumeMounts:
             - name: shared-text
               mountPath: /usr/src/app/files
+            - name: ping-pong-count
+              mountPath: /usr/src/app/count
         - name: backend
           image: backend:latest
           imagePullPolicy: IfNotPresent

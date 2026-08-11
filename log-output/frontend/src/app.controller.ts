@@ -6,8 +6,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {this.appService.updateContent()}
 
   @Get()
-  async getCode(): Promise<string> {
-    return await this.appService.getCode();
+  getCode(): string {
+    return this.appService.getCode();
   }
 
 }
