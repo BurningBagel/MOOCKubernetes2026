@@ -34,7 +34,7 @@ async function main(){
         //   console.log(this.generateCode());
         let content = String(new Date().toISOString()+':'+randomString);
     
-        fs.writeFile(filePath, content+'\n', {flag:'a+'}, err => {
+        fs.writeFile(filePath, content+'\n', {flag:'w+'}, err => {
           if (err) {
             console.error(err);
           } else {
