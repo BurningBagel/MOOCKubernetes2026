@@ -1,9 +1,5 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { createApp } from 'vue'
+import './style.css'
+import App from './App.vue'
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  console.log("Server started in port ", process.env.PORT ?? 3000)
-  await app.listen(process.env.PORT ?? 3000);
-}
-bootstrap();
+createApp(App).mount('#app')
