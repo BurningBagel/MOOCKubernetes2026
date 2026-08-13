@@ -13,9 +13,12 @@ spec:
         app: the-project
     spec:
       containers:
-        - name: the-project
-          image: the-project:latest
+        - name: the-project-frontend
+          image: the-project-frontend:latest
           imagePullPolicy: IfNotPresent
           env:
           - name: PORT
             value: "3000"
+        - name: the-project-backend
+          image: the-project-backend:latest
+          imagePullPolicy: IfNotPresent
