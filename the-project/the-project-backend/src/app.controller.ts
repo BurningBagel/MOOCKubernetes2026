@@ -14,18 +14,18 @@ export class AppController {
   FILENAME = 'lorem_img.png';
   
   // directory = path.join('/', 'usr', 'src', 'app', 'files')
-  directory = path.join('/')
-  filePath = path.join(this.directory, 'timestampedStrings.txt')
+  directory = path.join('/','usr','src','app','data')
+  filePath = path.join(this.directory, this.FILENAME)
 
   async setupImage(): Promise<void>{
     const res = await fetch(this.LOREM_PICSUM_URL)
     if (!res.ok) throw new Error(`ERROR FETCHING IMAGE: ${res.statusText}`)
     
-    const fileStream = fs.createWriteStream(this.FILENAME);
+    const fileStream = fs.createWriteStream(this.filePath);
     await finished(Readable.fromWeb(res.body).pipe(fileStream));
   }
 
-  @Cron('*/5 * * * * *')
+  @Cron('*/10 * * * *')
   updateImage(): void {
     this.setupImage()
   }

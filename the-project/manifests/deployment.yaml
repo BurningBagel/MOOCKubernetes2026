@@ -12,13 +12,23 @@ spec:
       labels:
         app: the-project
     spec:
+      volumes:
+        - name: the-project-volume
+          persistentVolumeClaim:
+            claimName: the-project-claim
       containers:
         - name: the-project-frontend
           image: the-project-frontend:latest
           imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: the-project-volume
+              mountPath: /usr/src/app/data
           env:
           - name: PORT
             value: "3000"
         - name: the-project-backend
           image: the-project-backend:latest
+          volumeMounts:
+            - name: the-project-volume
+              mountPath: /usr/src/app/data
           imagePullPolicy: IfNotPresent
