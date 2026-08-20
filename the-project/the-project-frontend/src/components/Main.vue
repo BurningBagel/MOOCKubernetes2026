@@ -11,9 +11,9 @@
         <h2 style="font-weight: bold; color: black;">Todos</h2>
 
         <div class="todos_container">
-            <TodoItem title="Todo 1" />
-            <TodoItem title="Todo 2" />
-            <TodoItem title="Todo 3" />
+            <TodoItem title="Do the dishes" />
+            <TodoItem title="Take out the trash" />
+            <TodoItem title="Go for a run" />
         </div>
 
     </div>
