@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { get, IncomingMessage } from 'http';
 const fs = require("fs");
 const path = require('path');
 
@@ -10,8 +11,8 @@ export class AppService {
   directory = path.join('/', 'usr', 'src', 'app', 'files')
   filePath = path.join(this.directory, 'timestampedStrings.txt')
 
-  pingpongDirectory = path.join('/', 'usr', 'src', 'app', 'count')
-  pingpongFilePath = path.join(this.pingpongDirectory, 'pingpongcount.txt')
+  // pingpongDirectory = path.join('/', 'usr', 'src', 'app', 'count')
+  // pingpongFilePath = path.join(this.pingpongDirectory, 'pingpongcount.txt')
   
   delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
@@ -41,7 +42,10 @@ export class AppService {
     let answer = "";
     
     try {
-      answer = this.content.concat('<p>ping pong counter = ',fs.readFileSync(this.pingpongFilePath, {encoding: 'utf8', flag: 'r'},'</p>'));
+      // answer = this.content.concat('<p>ping pong counter = ',fs.readFileSync(this.pingpongFilePath, {encoding: 'utf8', flag: 'r'},'</p>'));
+      get('http://localhost:3000/pingpong', (res:IncomingMessage) => {
+        
+      })
       
     } catch (error) {
       console.log(error)

@@ -5,23 +5,28 @@ const path = require('path');
 @Injectable()
 export class AppService {
 
-  private directory = path.join('/', 'usr', 'src', 'app','count')
-  private filePath = path.join(this.directory, 'pingpongcount.txt')
+  // private directory = path.join('/', 'usr', 'src', 'app','count')
+  // private filePath = path.join(this.directory, 'pingpongcount.txt')
 
   private pingPongCounter = 0;
 
-  pingPong(): string {
-    let content = this.pingPongCounter + 1;
-    fs.writeFile(this.filePath, String(content), {flag:'w+'}, err => {
-      if (err) {
-        console.error(err);
-      } else {
-        // file written successfully
-      }
-    });
+  // pingPong(): string {
+  //   let content = this.pingPongCounter + 1;
+  //   fs.writeFile(this.filePath, String(content), {flag:'w+'}, err => {
+  //     if (err) {
+  //       console.error(err);
+  //     } else {
+  //       // file written successfully
+  //     }
+  //   });
 
-    return 'pong ' + String(this.pingPongCounter++);
+  //   return 'pong ' + String(this.pingPongCounter++);
+  // }
+
+  pingPong() : string {
+    return String(this.pingPongCounter++)
   }
+
 }
 
 
