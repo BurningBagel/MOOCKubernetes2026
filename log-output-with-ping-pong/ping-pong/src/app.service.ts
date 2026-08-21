@@ -24,7 +24,8 @@ export class AppService {
   // }
 
   pingPong() : string {
-    return String(this.pingPongCounter++)
+    // return String(this.pingPongCounter++)
+    return "HERE IS THE RETURN!!!!!"
   }
 
 }

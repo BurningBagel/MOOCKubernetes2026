@@ -21,7 +21,7 @@ const findAFile = async () => {
 
 async function main(){
 
-    await findAFile();
+    //await findAFile();
 
     
     const randomString = (Math.random() * 0xFFFFFFFFFFFFF).toString(16).slice(0, 10);
@@ -34,13 +34,13 @@ async function main(){
         //   console.log(this.generateCode());
         let content = String(new Date().toISOString()+':'+randomString);
     
-        fs.writeFile(filePath, content+'\n', {flag:'w+'}, err => {
-          if (err) {
-            console.error(err);
-          } else {
-            // file written successfully
-          }
-        });
+        // fs.writeFile(filePath, content+'\n', {flag:'w+'}, err => {
+        //   if (err) {
+        //     console.error(err);
+        //   } else {
+        //     // file written successfully
+        //   }
+        // });
     
         await delay(5000);
     }
