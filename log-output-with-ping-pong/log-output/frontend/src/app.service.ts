@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { get, IncomingMessage } from 'http';
 const fs = require("fs");
 const path = require('path');
+type errorType = {"message":String,"error":String,"statusCode":Number}
 
 
 
@@ -10,7 +11,7 @@ const path = require('path');
 export class AppService {
   directory = path.join('/', 'usr', 'src', 'app', 'files')
   filePath = path.join(this.directory, 'timestampedStrings.txt')
-
+  
   // pingpongDirectory = path.join('/', 'usr', 'src', 'app', 'count')
   // pingpongFilePath = path.join(this.pingpongDirectory, 'pingpongcount.txt')
 
@@ -42,17 +43,17 @@ export class AppService {
     
     return new Promise<string>((resolve,reject) => {
       
-        // answer = this.content.concat('<p>ping pong counter = ',fs.readFileSync(this.pingpongFilePath, {encoding: 'utf8', flag: 'r'},'</p>'));
-        get('http://localhost:3001/pingpong', (res: IncomingMessage) => {
-          res.setEncoding('utf8');
-          let rawData = '';
-          res.on('data', (chunk) => { rawData += chunk; });
-          res.on('end', () => {
-            try {
-              console.log("in get: " + rawData)
-              resolve(rawData)
-            } catch (error) {
-              reject(error)
+      get('http://ping-pong-svc:2345/pings', (res: IncomingMessage) => {
+        res.setEncoding('utf8');
+        let rawData = '';
+        res.on('data', (chunk) => { rawData += chunk; });
+        res.on('end', () => {
+          try {
+              let answer = this.content.concat('<p>ping pong counter = ',rawData,'</p>');
+              // console.log("in get: " + rawData)
+              resolve(answer)
+            } catch (error:any) {
+              reject("ERROR: " + error["message"])
               console.error(error);
             }
           });

@@ -23,9 +23,13 @@ export class AppService {
   //   return 'pong ' + String(this.pingPongCounter++);
   // }
 
-  pingPong() : string {
-    // return String(this.pingPongCounter++)
-    return "HERE IS THE RETURN!!!!!"
+  getPingPong() : string {
+    return String(this.pingPongCounter++)
+    // return "HERE IS THE RETURN!!!!!"
+  }
+
+  getPings(): string {
+    return String(this.pingPongCounter)
   }
 
 }
