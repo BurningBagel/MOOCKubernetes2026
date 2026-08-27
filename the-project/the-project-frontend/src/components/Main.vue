@@ -83,8 +83,21 @@ input::placeholder {
 </style>
 
 <script setup lang="ts">
+import type { TodoDTO } from '../shared/todo.dto.ts';
 import TodoItem from './TodoItem.vue';
 
+const todos : TodoDTO[] = [];
 let inputText = '';
+
+
+async function getDataFromBackend(){
+    const response = await fetch("http://the-project-backend:2345/todos")
+    if(response.ok){
+        console.log(response.body)
+    }
+}
+
+
+
 
 </script>
