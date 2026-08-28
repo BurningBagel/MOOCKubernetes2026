@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import * as todoDto from 'shared/todo.dto';
+import { TodoDTO } from 'shared/todo.dto';
 
 
 @Controller()
@@ -9,7 +10,7 @@ export class AppController {
   
   
   @Get('/todos')
-  getTodos(){
+  getTodos() : TodoDTO[]{
     return this.appService.getTodos()
   }
   

@@ -17,26 +17,27 @@ export class AppService {
     filePath = path.join(this.directory, this.FILENAME)
 
 
-    todoList : TodoDTO[] = [];
+    //todoList : TodoDTO[] = [];
 
+    todoList : TodoDTO[] = [{ title: 'Test Todo' , content: 'This is a test todo', complete: true, ID: 1}] //TEST TODO LIST
 
 
 
     
     async setupImage(): Promise<void>{
-        const res = await fetch(this.LOREM_PICSUM_URL)
-        if (!res.ok) throw new Error(`ERROR FETCHING IMAGE: ${res.statusText}`)
+        //const res = await fetch(this.LOREM_PICSUM_URL)
+        //if (!res.ok) throw new Error(`ERROR FETCHING IMAGE: ${res.statusText}`)
             
-            const fileStream = fs.createWriteStream(this.filePath);
-            await finished(Readable.fromWeb(res.body).pipe(fileStream));
+            //const fileStream = fs.createWriteStream(this.filePath);
+            //await finished(Readable.fromWeb(res.body).pipe(fileStream));
     }
         
     @Cron('*/10 * * * *')
     updateImage(): void {
-        this.setupImage()
+        //this.setupImage()
     }
     
-    getTodos(){
+    getTodos() : TodoDTO[]{
         return this.todoList;
     }
     

@@ -15,7 +15,12 @@
             <TodoItem title="Take out the trash" />
             <TodoItem title="Go for a run" />
         </div>
-
+        <div v-if="!loading" class="todos_container">
+            <TodoItem v-for="todo in todos" :key="todo.ID" :title="todo.title" :content="todo.content" :complete="todo.complete" />
+        </div>
+        <div v-else>
+            <p>Loading...</p>
+        </div>
     </div>
 </template>
 
@@ -83,21 +88,34 @@ input::placeholder {
 </style>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import type { TodoDTO } from '../shared/todo.dto.ts';
 import TodoItem from './TodoItem.vue';
 
 const todos : TodoDTO[] = [];
 let inputText = '';
+let loading = ref(false);
 
 
 async function getDataFromBackend(){
-    const response = await fetch("http://the-project-backend:2345/todos")
+    loading.value = true;
+    console.log('fetching')
+    const response = await fetch("http://localhost:3001/todos")
     if(response.ok){
-        console.log(response.body)
+        console.log("fetched. Turning into json")
+        const data : TodoDTO[] = await response.json();
+        // console.log(data);
+        
+        todos.length = 0;
+        data.forEach((todo) => {
+            todos.push(todo);
+        });
+        console.log(todos)
     }
+    loading.value = false;
 }
 
-
+getDataFromBackend();
 
 
 </script>

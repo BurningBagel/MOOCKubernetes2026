@@ -1,6 +1,6 @@
 <template>
 
-    <div class="todo-item">
+    <div class="todo-item" :class="{'finished':complete, 'notFinished':!complete}">
         {{ title }}
     </div>
 
@@ -18,7 +18,15 @@
     color: black;
     padding: 10px;
     border-radius: 5px;
-    border-left: 4px green solid;
+}
+
+.finished{
+    border-left: 4px green solid ;
+}
+
+.notFinished{
+    border-left: 4px red solid;
+
 }
 
 
@@ -28,8 +36,15 @@
 defineProps({
     title: {
         type: String
+    },
+    content: {
+        type: String
+    },
+    complete: {
+        type: Boolean
     }
 })
+
 
 
 </script>
