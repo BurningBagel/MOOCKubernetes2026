@@ -37,9 +37,6 @@ defineProps({
     title: {
         type: String
     },
-    content: {
-        type: String
-    },
     complete: {
         type: Boolean
     }

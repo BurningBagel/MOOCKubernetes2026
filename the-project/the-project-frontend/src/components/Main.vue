@@ -3,20 +3,20 @@
         <h1 style="font-weight: bold; color: black;">The Project</h1>
         <!-- <img src="/usr/src/app/data/lorem_img.png" alt="random image from lorem picsum"> -->
         <img src="https://picsum.photos/1200" height="300px" width="300px" alt="random image">
-        <div class="entry_container">
+        <form v-on:submit.prevent="addTodo" class="entry_container">
             <input type="text" max-length="140" v-model="inputText" placeholder="Enter a new todo here, max 140 characters" />
-            <button @click="$emit('add-todo', inputText); inputText = ''">Send</button>
-        </div>
+            <button type="submit">Send</button>
+        </form>
 
         <h2 style="font-weight: bold; color: black;">Todos</h2>
 
-        <div class="todos_container">
+        <!-- <div class="todos_container">
             <TodoItem title="Do the dishes" />
             <TodoItem title="Take out the trash" />
             <TodoItem title="Go for a run" />
-        </div>
+        </div> -->
         <div v-if="!loading" class="todos_container">
-            <TodoItem v-for="todo in todos" :key="todo.ID" :title="todo.title" :content="todo.content" :complete="todo.complete" />
+            <TodoItem v-for="todo in todos" :key="todo.ID" :title="todo.title" :complete="todo.complete" />
         </div>
         <div v-else>
             <p>Loading...</p>
@@ -47,6 +47,12 @@ input {
     border: 2px solid green;
     border-radius: 5px;
     background-color: #EEEEEE;
+    color: black;
+    overflow: visible;
+}
+
+input::placeholder {
+    overflow: visible;
 }
 
 button {
@@ -92,17 +98,54 @@ import { ref } from 'vue';
 import type { TodoDTO } from '../shared/todo.dto.ts';
 import TodoItem from './TodoItem.vue';
 
+const TODO_BACKEND = "http://localhost:3001/"; // TODO change to backend's address in the cluster
+
+
 const todos : TodoDTO[] = [];
-let inputText = '';
+
+const placeholderTodos : TodoDTO[] = [
+    {
+        'ID': 0,
+        'title': "",
+        'complete': true
+    },
+    {
+        'ID': 1,
+        'title': "",
+        "complete": false
+    },
+    {
+        'ID': 2,
+        'title': '',
+        'complete': true
+    }
+]
+
+let inputText = ref('');
 let loading = ref(false);
+
+async function addTodo(){
+    console.log(inputText.value)
+    const response = await fetch(TODO_BACKEND + "todos",{ 
+        method: 'POST',
+        body: JSON.stringify(inputText.value)
+    })
+    if(!response.ok){
+        throw new Error('ERROR POSTING TODO: ' + response.statusText)
+    }
+    getDataFromBackend();
+}
 
 
 async function getDataFromBackend(){
     loading.value = true;
+    
+    todos.splice(0,todos.length,...placeholderTodos);
+
     console.log('fetching')
-    const response = await fetch("http://localhost:3001/todos")
+    const response = await fetch(TODO_BACKEND + "todos")
+    console.log("fetched. Turning into json")
     if(response.ok){
-        console.log("fetched. Turning into json")
         const data : TodoDTO[] = await response.json();
         // console.log(data);
         

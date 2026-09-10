@@ -9,15 +9,15 @@ export class AppController {
   constructor(private readonly appService: AppService) {appService.setupImage();}
   
   
-  @Get('/todos')
-  getTodos() : TodoDTO[]{
-    return this.appService.getTodos()
-  }
+  // @Get('/todos')
+  // getTodos() : TodoDTO[]{
+  //   return this.appService.getTodos()
+  // }
   
-  @Post('/todos')
-  async postTodos(@Body() todoDTO : todoDto.TodoDTO){
-    return await this.appService.postTodo(todoDTO)
-  }
+  // @Post('/todos')
+  // async postTodos(@Body() todoDTO : todoDto.TodoDTO){
+  //   return await this.appService.postTodo(todoDTO)
+  // }
 
 
   

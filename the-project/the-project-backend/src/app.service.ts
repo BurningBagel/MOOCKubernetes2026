@@ -25,23 +25,17 @@ export class AppService {
 
     
     async setupImage(): Promise<void>{
-        //const res = await fetch(this.LOREM_PICSUM_URL)
-        //if (!res.ok) throw new Error(`ERROR FETCHING IMAGE: ${res.statusText}`)
+        const res = await fetch(this.LOREM_PICSUM_URL)
+        if (!res.ok) throw new Error(`ERROR FETCHING IMAGE: ${res.statusText}`)
             
-            //const fileStream = fs.createWriteStream(this.filePath);
-            //await finished(Readable.fromWeb(res.body).pipe(fileStream));
+            const fileStream = fs.createWriteStream(this.filePath);
+            await finished(Readable.fromWeb(res.body).pipe(fileStream));
     }
         
     @Cron('*/10 * * * *')
     updateImage(): void {
-        //this.setupImage()
+        this.setupImage()
     }
     
-    getTodos() : TodoDTO[]{
-        return this.todoList;
-    }
     
-    postTodo(todo : TodoDTO){
-        this.todoList.push(todo)
-    }
     }
