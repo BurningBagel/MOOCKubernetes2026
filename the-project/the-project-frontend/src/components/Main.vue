@@ -128,7 +128,10 @@ async function addTodo(){
     console.log(inputText.value)
     const response = await fetch(TODO_BACKEND + "todos",{ 
         method: 'POST',
-        body: JSON.stringify({'test':inputText.value})
+        body: JSON.stringify({'todo':inputText.value}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
     })
     if(!response.ok){
         throw new Error('ERROR POSTING TODO: ' + response.statusText)

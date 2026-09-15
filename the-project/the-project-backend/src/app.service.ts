@@ -19,7 +19,7 @@ export class AppService {
 
     //todoList : TodoDTO[] = [];
 
-    todoList : TodoDTO[] = [{ title: 'Test Todo' , content: 'This is a test todo', complete: true, ID: 1}] //TEST TODO LIST
+    todoList : TodoDTO[] = [{ 'title': 'Test Todo' , 'complete': true, ID: 1}] //TEST TODO LIST
 
 
 

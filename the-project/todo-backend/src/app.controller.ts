@@ -14,6 +14,6 @@ export class AppController {
   @Post('/todos')
   postTodos(@Body() todo) : void {
     console.log(todo)
-    this.appService.postTodos(todo);
+    this.appService.postTodos(todo.todo);
   }
 }
