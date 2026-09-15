@@ -1,8 +1,8 @@
 <template>
     <div class="container" >
         <h1 style="font-weight: bold; color: black;">The Project</h1>
-        <!-- <img src="/usr/src/app/data/lorem_img.png" alt="random image from lorem picsum"> -->
-        <img src="https://picsum.photos/1200" height="300px" width="300px" alt="random image">
+        <img src="/usr/src/app/data/lorem_img.png" height="300px" width="300px" alt="random image from lorem picsum">
+        <!-- <img src="https://picsum.photos/1200" height="300px" width="300px" alt="random image"> -->
         <form v-on:submit.prevent="addTodo" class="entry_container">
             <input type="text" max-length="140" v-model="inputText" placeholder="Enter a new todo here, max 140 characters" />
             <button type="submit">Send</button>
@@ -98,8 +98,8 @@ import { ref } from 'vue';
 import type { TodoDTO } from '../shared/todo.dto.ts';
 import TodoItem from './TodoItem.vue';
 
-const TODO_BACKEND = "http://localhost:3001/"; // TODO change to backend's address in the cluster
-
+//const TODO_BACKEND = "http://localhost:3001/"; // FOR TESTING
+const TODO_BACKEND = "http://todo-backend-svc:2345/";
 
 const todos : TodoDTO[] = [];
 
@@ -150,7 +150,6 @@ async function getDataFromBackend(){
     console.log("fetched. Turning into json")
     if(response.ok){
         const data : TodoDTO[] = await response.json();
-        // console.log(data);
         
         todos.length = 0;
         data.forEach((todo) => {

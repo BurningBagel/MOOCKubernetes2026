@@ -13,3 +13,12 @@ spec:
             name: the-project-svc
             port:
               number: 2345
+  - http:
+      paths:
+      - path: /todos
+        pathType: Prefix
+        backend:
+          service:
+            name: todo-backend-svc
+            port:
+              number: 2345
