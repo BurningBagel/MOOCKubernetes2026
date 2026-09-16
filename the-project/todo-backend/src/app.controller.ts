@@ -7,8 +7,8 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('/todos')
-  getTodos(): TodoDTO[] {
-    return this.appService.getTodos();
+  getTodos(): string {
+    return JSON.stringify(this.appService.getTodos());
   }
 
   @Post('/todos')

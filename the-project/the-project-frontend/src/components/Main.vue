@@ -99,7 +99,7 @@ import type { TodoDTO } from '../shared/todo.dto.ts';
 import TodoItem from './TodoItem.vue';
 
 //const TODO_BACKEND = "http://localhost:3001/"; // FOR TESTING
-const TODO_BACKEND = "http://todo-backend-svc:2345/";
+const TODO_BACKEND = "http://localhost:8081/";
 
 const todos : TodoDTO[] = [];
 
@@ -145,17 +145,21 @@ async function getDataFromBackend(){
     
     todos.splice(0,todos.length,...placeholderTodos);
 
-    console.log('fetching')
+    console.log('fetching on ' + TODO_BACKEND + "todos")
     const response = await fetch(TODO_BACKEND + "todos")
     console.log("fetched. Turning into json")
     if(response.ok){
-        const data : TodoDTO[] = await response.json();
-        
+        console.log("GOING IN")
+        let anchor = await response.text();
+        console.log(anchor)
         todos.length = 0;
-        data.forEach((todo) => {
-            todos.push(todo);
-        });
-        console.log(todos)
+        if(anchor != ""){
+            const data : TodoDTO[] = JSON.parse(anchor);
+            data.forEach((todo) => {
+                todos.push(todo);
+            });
+            console.log(todos)
+        }
     }
     loading.value = false;
 }
