@@ -5,7 +5,7 @@
         <!-- <img src="https://picsum.photos/1200" height="300px" width="300px" alt="random image"> -->
         <form v-on:submit.prevent="addTodo" class="entry_container">
             <input type="text" max-length="140" v-model="inputText" placeholder="Enter a new todo here, max 140 characters" />
-            <button type="submit">Send</button>
+            <button type="submit">Send</button> 
         </form>
 
         <h2 style="font-weight: bold; color: black;">Todos</h2>
@@ -42,7 +42,7 @@ img {
 
 input {
     margin-right: 10px;
-    padding-right: 200px;
+    width: 500px;
     font-size: large;
     border: 2px solid green;
     border-radius: 5px;
