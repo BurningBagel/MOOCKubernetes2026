@@ -50,7 +50,6 @@ export class AppService {
         res.on('end', () => {
           try {
               let answer = this.content.concat('<p>ping pong counter = ',rawData,'</p>');
-              // console.log("in get: " + rawData)
               resolve(answer)
             } catch (error:any) {
               reject("ERROR: " + error["message"])

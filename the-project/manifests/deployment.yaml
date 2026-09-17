@@ -32,9 +32,3 @@ spec:
             - name: the-project-volume
               mountPath: /usr/src/app/data
           imagePullPolicy: IfNotPresent
-        - name: todo-backend
-          image: todo-backend:latest
-          imagePullPolicy: IfNotPresent
-          env:
-          - name: PORT
-            value: "3001"

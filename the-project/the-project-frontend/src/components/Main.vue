@@ -125,7 +125,6 @@ let inputText = ref('');
 let loading = ref(false);
 
 async function addTodo(){
-    console.log(inputText.value)
     const response = await fetch(TODO_BACKEND + "todos",{ 
         method: 'POST',
         body: JSON.stringify({'todo':inputText.value}),
@@ -145,20 +144,15 @@ async function getDataFromBackend(){
     
     todos.splice(0,todos.length,...placeholderTodos);
 
-    console.log('fetching on ' + TODO_BACKEND + "todos")
     const response = await fetch(TODO_BACKEND + "todos")
-    console.log("fetched. Turning into json")
     if(response.ok){
-        console.log("GOING IN")
         let anchor = await response.text();
-        console.log(anchor)
         todos.length = 0;
         if(anchor != ""){
             const data : TodoDTO[] = JSON.parse(anchor);
             data.forEach((todo) => {
                 todos.push(todo);
             });
-            console.log(todos)
         }
     }
     loading.value = false;

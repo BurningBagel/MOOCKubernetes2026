@@ -17,8 +17,6 @@ export class AppService {
       title: todo,
       complete: false
     }
-    console.log(todo)
     this.todos.push(newTodo);
-    console.log(this.todos)
   }
 }
