@@ -11,6 +11,9 @@ type errorType = {"message":String,"error":String,"statusCode":Number}
 export class AppService {
   directory = path.join('/', 'usr', 'src', 'app', 'files')
   filePath = path.join(this.directory, 'timestampedStrings.txt')
+
+  configDirectory = path.join('/', 'usr', 'src', 'app', 'config')
+  configFilePath = path.join(this.configDirectory, 'information.txt')
   
   // pingpongDirectory = path.join('/', 'usr', 'src', 'app', 'count')
   // pingpongFilePath = path.join(this.pingpongDirectory, 'pingpongcount.txt')
@@ -42,6 +45,13 @@ export class AppService {
 
     
     return new Promise<string>((resolve,reject) => {
+      let configEnvVariable = "<p>env variable: " + process.env.MESSAGE + "</p>";
+      let configFileContent = "<p>file content: ";
+      try {
+        configFileContent = configFileContent.concat(fs.readFileSync(this.configFilePath, 'utf8'),'</p>');
+      } catch (error) {
+        console.error("Error reading config file:", error);
+      }
       
       get('http://ping-pong-svc:2345/pings', (res: IncomingMessage) => {
         res.setEncoding('utf8');
@@ -50,6 +60,7 @@ export class AppService {
         res.on('end', () => {
           try {
               let answer = this.content.concat('<p>ping pong counter = ',rawData,'</p>');
+              answer = configEnvVariable + configFileContent + answer;
               resolve(answer)
             } catch (error:any) {
               reject("ERROR: " + error["message"])

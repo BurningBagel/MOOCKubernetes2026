@@ -19,13 +19,27 @@ spec:
         #     claimName: ping-pong-claim
         - name: shared-text
           emptyDir: {}
+        - name: log-output-config-volume
+          configMap:
+            name: log-output-config-map
+            items: 
+              - key: information.txt
+                path: information.txt
       containers:
         - name: frontend
           image: frontend:latest
           imagePullPolicy: IfNotPresent
+          env:
+            - name: MESSAGE
+              valueFrom:
+                configMapKeyRef:
+                  name: log-output-config-map
+                  key: message
           volumeMounts:
             - name: shared-text
               mountPath: /usr/src/app/files
+            - name: log-output-config-volume
+              mountPath: /usr/src/app/config
             # - name: ping-pong-count
             #   mountPath: /usr/src/app/count
         - name: backend
