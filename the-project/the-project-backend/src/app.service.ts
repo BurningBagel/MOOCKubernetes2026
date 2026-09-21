@@ -9,12 +9,16 @@ const { Readable } = require('stream')
 @Injectable()
 export class AppService {
     
-    LOREM_PICSUM_URL = 'https://picsum.photos/1200';
-    FILENAME = 'lorem_img.png';
+    // LOREM_PICSUM_URL = 'https://picsum.photos/1200';
+    
+    LOREM_PICSUM_URL : any = process.env.LOREM_PICSUM_URL;
+    LOREM_PICSUM_FILE_PATH : any = process.env.LOREM_PICSUM_FILE_PATH;
+
+    //FILENAME = 'lorem_img.png';
     
     // directory = path.join('/', 'usr', 'src', 'app', 'files')
-    directory = path.join('/','usr','src','app','data')
-    filePath = path.join(this.directory, this.FILENAME)
+    //directory = path.join('/','usr','src','app','data')
+    //filePath = path.join(this.directory, this.FILENAME)
 
 
     //todoList : TodoDTO[] = [];
@@ -25,11 +29,15 @@ export class AppService {
 
     
     async setupImage(): Promise<void>{
-        const res = await fetch(this.LOREM_PICSUM_URL)
-        if (!res.ok) throw new Error(`ERROR FETCHING IMAGE: ${res.statusText}`)
-            
-            const fileStream = fs.createWriteStream(this.filePath);
-            await finished(Readable.fromWeb(res.body).pipe(fileStream));
+        try {
+            const res = await fetch(this.LOREM_PICSUM_URL)
+            if (!res.ok) throw new Error(`BAD REQUEST FETCHING IMAGE: ${res.statusText}`)
+                
+                const fileStream = fs.createWriteStream(this.LOREM_PICSUM_FILE_PATH);
+                await finished(Readable.fromWeb(res.body).pipe(fileStream));
+        } catch (error) {
+            console.error('Error fetching image:', error);
+        }
     }
         
     @Cron('*/10 * * * *')

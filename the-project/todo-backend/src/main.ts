@@ -7,9 +7,7 @@ async function bootstrap() {
 
   app.use(bodyParser.json())
 
-  // app.enableCors({
-  //   origin: 'http://localhost:8081' //TODO change this
-  // })
+  
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

@@ -17,6 +17,9 @@ spec:
         - name: the-project-volume
           persistentVolumeClaim:
             claimName: the-project-claim
+        - name: the-project-config-volume
+          configMap:
+            name: the-project-config-map
       containers:
         - name: the-project-frontend
           image: the-project-frontend:latest
@@ -24,12 +27,36 @@ spec:
           volumeMounts:
             - name: the-project-volume
               mountPath: /usr/src/app/data
+            - name: the-project-config-volume
+              mountPath: /usr/src/app/.env
+              subPath: .env
           env:
           - name: PORT
             value: "3000"
+          - name: LOREM_PICSUM_FILE_PATH
+            valueFrom:
+              configMapKeyRef:
+                name: the-project-config-map
+                key: LOREM_PICSUM_FILE_PATH
+          - name: TODO_BACKEND
+            valueFrom:
+              configMapKeyRef:
+                name: the-project-config-map
+                key: TODO_BACKEND
         - name: the-project-backend
           image: the-project-backend:latest
           volumeMounts:
             - name: the-project-volume
               mountPath: /usr/src/app/data
           imagePullPolicy: IfNotPresent
+          env:
+          - name: LOREM_PICSUM_URL
+            valueFrom:
+              configMapKeyRef:
+                name: the-project-config-map
+                key: LOREM_PICSUM_URL
+          - name: LOREM_PICSUM_FILE_PATH
+            valueFrom:
+              configMapKeyRef:
+                name: the-project-config-map
+                key: LOREM_PICSUM_FILE_PATH

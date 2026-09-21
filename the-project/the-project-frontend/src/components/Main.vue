@@ -1,7 +1,8 @@
 <template>
     <div class="container" >
         <h1 style="font-weight: bold; color: black;">The Project</h1>
-        <img src="/usr/src/app/data/lorem_img.png" height="300px" width="300px" alt="random image from lorem picsum">
+        <!-- <img src="/usr/src/app/data/lorem_img.png" height="300px" width="300px" alt="random image from lorem picsum"> -->
+        <img v-bind:src="LOREM_PICSUM_FILE_PATH" height="300px" width="300px" alt="random image from lorem picsum">
         <!-- <img src="https://picsum.photos/1200" height="300px" width="300px" alt="random image"> -->
         <form v-on:submit.prevent="addTodo" class="entry_container">
             <input type="text" max-length="140" v-model="inputText" placeholder="Enter a new todo here, max 140 characters" />
@@ -98,8 +99,12 @@ import { ref } from 'vue';
 import type { TodoDTO } from '../shared/todo.dto.ts';
 import TodoItem from './TodoItem.vue';
 
+
 //const TODO_BACKEND = "http://localhost:3001/"; // FOR TESTING
-const TODO_BACKEND = "http://localhost:8081/";
+//const TODO_BACKEND = "http://localhost:8081/";
+const TODO_BACKEND = import.meta.env.VITE_TODO_BACKEND;
+
+const LOREM_PICSUM_FILE_PATH = import.meta.env.VITE_LOREM_PICSUM_FILE_PATH;
 
 const todos : TodoDTO[] = [];
 
@@ -125,7 +130,7 @@ let inputText = ref('');
 let loading = ref(false);
 
 async function addTodo(){
-    const response = await fetch(TODO_BACKEND + "todos",{ 
+    const response = await fetch(TODO_BACKEND,{ 
         method: 'POST',
         body: JSON.stringify({'todo':inputText.value}),
         headers: {
@@ -144,7 +149,7 @@ async function getDataFromBackend(){
     
     todos.splice(0,todos.length,...placeholderTodos);
 
-    const response = await fetch(TODO_BACKEND + "todos")
+    const response = await fetch(TODO_BACKEND)
     if(response.ok){
         let anchor = await response.text();
         todos.length = 0;
