@@ -26,7 +26,7 @@ spec:
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: the-project-volume
-              mountPath: /usr/src/app/data
+              mountPath: /usr/src/app/public
             - name: the-project-config-volume
               mountPath: /usr/src/app/.env
               subPath: .env

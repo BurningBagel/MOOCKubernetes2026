@@ -2,10 +2,11 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: the-project-config-map
+  namespace: project
 data:
   LOREM_PICSUM_URL: "https://picsum.photos/1200"
   LOREM_PICSUM_FILE_PATH: "/usr/src/app/data/lorem_img.png"
   TODO_BACKEND: "/todos/"
   .env: |
     VITE_TODO_BACKEND=/todos/
-    VITE_LOREM_PICSUM_FILE_PATH=/usr/src/app/data/lorem_img.png
+    VITE_LOREM_PICSUM_FILE_PATH=/lorem_img.png
