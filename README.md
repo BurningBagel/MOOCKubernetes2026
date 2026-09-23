@@ -21,3 +21,4 @@ Submissions for MOOC Kubernetes course 2026
 * [2.3](https://github.com/BurningBagel/MOOCKubernetes2026/tree/2.3/log-output-with-ping-pong)
 * [2.4](https://github.com/BurningBagel/MOOCKubernetes2026/tree/2.4/the-project)
 * [2.5](https://github.com/BurningBagel/MOOCKubernetes2026/tree/2.5/log-output-with-ping-pong)
+* [2.6](https://github.com/BurningBagel/MOOCKubernetes2026/tree/2.6/the-project)
