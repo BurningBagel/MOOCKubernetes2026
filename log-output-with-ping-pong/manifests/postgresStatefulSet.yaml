@@ -1,0 +1,95 @@
+# apiVersion: apps/v1
+# kind: StatefulSet
+# metadata:
+#   name: postgres-stset
+#   namespace: exercises
+# spec:
+#   serviceName: postgres-svc
+#   replicas: 2
+#   selector:
+#     matchLabels:
+#       app: postgres-app
+#     template:
+#       metadata:
+#         labels:
+#           app: postgres-app
+#       spec:
+#         containers:
+#           - name: postgres-container
+#             image: postgres
+#             ports:
+#               - name: web
+#                 containerPort: 5432
+#             volumeMounts: 
+#               - name: postgres-data-storage
+#                 mountPath: /data
+#     volumeClaimTemplates:
+#       - metadata:
+#           name: postgres-data-storage
+#         spec:
+#           accessModes: ["ReadWriteOnce"]
+#           storageClassName: local-path
+#           resources:
+#             requests:
+#               storage: 100Mi
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-stset
+spec:
+  selector:
+    matchLabels:
+      app: postgres-app
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  serviceName: postgres-svc
+  podManagementPolicy: OrderedReady
+  volumeClaimTemplates:
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
+        labels: {}
+        annotations: {}
+        name: postgres-data-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Mi
+        storageClassName: local-path
+  template:
+    metadata:
+      labels:
+        app: postgres-app
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres
+          imagePullPolicy: Always
+          env:
+          - name: POSTGRES_PASSWORD
+            value: "example"
+          ports:
+            - name: web
+              containerPort: 5432
+          volumeMounts:
+            - name: postgres-data-storage
+              mountPath: /data
+              subPath: ''
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-svc
+  namespace: exercises
+  labels:
+    app: postgres-app
+spec:
+  ports:
+  - port: 5432
+    name: web
+  clusterIP: None
+  selector:
+    app: postgres-app

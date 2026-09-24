@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { Client } from 'pg';
 const fs = require("fs");
 const path = require('path');
 
@@ -23,13 +24,74 @@ export class AppService {
   //   return 'pong ' + String(this.pingPongCounter++);
   // }
 
-  getPingPong() : string {
-    return String(this.pingPongCounter++)
-    // return "HERE IS THE RETURN!!!!!"
+  async connectClient() : Promise<Client>{
+    return await new Client({
+      user: 'postgres',
+      database: 'postgres',
+      password: 'example',
+      host:'postgres-svc',
+      port: 5432
+    });
   }
 
-  getPings(): string {
-    return String(this.pingPongCounter)
+  async setup() : Promise<void> {
+    const client = await this.connectClient()
+
+    try {
+      await client.connect()
+      
+      await client.query("CREATE TABLE IF NOT EXISTS pingpong (pingpongcount NUMERIC(10,1));")
+  
+      await client.query("TRUNCATE TABLE pingpong;")
+  
+      await client.query("INSERT INTO pingpong (pingpongcount) VALUES (0);")
+  
+      await client.end()
+      
+    } catch (error) {
+      console.error(error)
+      await client.end()
+    }
+  }
+
+  async getPingPong() : Promise<string> {
+
+    const client = await this.connectClient();
+
+    try {
+      
+      await client.connect();
+  
+      const counter = (await client.query("SELECT * FROM pingpong;")).rows[0].pingpongcount;
+  
+      await client.query("UPDATE pingpong SET pingpongcount = $1::text",[String(counter+1)]);
+  
+      await client.end();
+  
+      return String(counter);
+      
+    } catch (error) {
+      
+      console.error(error);
+
+      await client.end();
+      
+      return '-1';
+
+    }
+    
+  }
+
+  async getPings(): Promise<string> {
+    const client = await this.connectClient();
+
+    await client.connect()
+
+    let result = (await client.query("SELECT * FROM pingpong;")).rows[0]
+
+    await client.end()
+
+    return String(result)
   }
 
 }
