@@ -40,7 +40,7 @@ export class AppService {
     try {
       await client.connect()
       
-      await client.query("CREATE TABLE IF NOT EXISTS pingpong (pingpongcount NUMERIC(10,1));")
+      await client.query("CREATE TABLE IF NOT EXISTS pingpong (pingpongcount NUMERIC(10,0));")
   
       await client.query("TRUNCATE TABLE pingpong;")
   
@@ -61,10 +61,10 @@ export class AppService {
     try {
       
       await client.connect();
+
+      const counter = Number((await client.query("SELECT * FROM pingpong;")).rows[0]['pingpongcount'])+1;
   
-      const counter = (await client.query("SELECT * FROM pingpong;")).rows[0].pingpongcount;
-  
-      await client.query("UPDATE pingpong SET pingpongcount = $1::text",[String(counter+1)]);
+      await client.query("UPDATE pingpong SET pingpongcount = $1::numeric",[String(counter)]);
   
       await client.end();
   
@@ -87,7 +87,7 @@ export class AppService {
 
     await client.connect()
 
-    let result = (await client.query("SELECT * FROM pingpong;")).rows[0]
+    let result = (await client.query("SELECT * FROM pingpong;")).rows[0]['pingpongcount']
 
     await client.end()
 
@@ -96,16 +96,3 @@ export class AppService {
 
 }
 
-
-/*
-
-DONE Create both a PersistentVolume and PersistentVolumeClaim 
-DONE and alter the Deployment to utilize it.
- As PersistentVolumes are often maintained by cluster administrators rather than developers and those are not application specific you should keep
-  the definition for those separated, perhaps in own folder.
-
-DONE Save the number of requests to the "Ping-pong" application into a file in the volume
- and output it with the timestamp and the random string when sending a request to our "Log output" application. 
- In the end, the two pods should share a persistent volume between the two applications.
-
-*/
