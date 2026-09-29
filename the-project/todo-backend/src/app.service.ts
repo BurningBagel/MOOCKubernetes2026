@@ -1,22 +1,77 @@
 import { Injectable } from '@nestjs/common';
 import { TodoDTO } from './shared/todo.dto';
+import { Client } from 'pg';
 
 @Injectable()
 export class AppService {
   private todos : TodoDTO[] = [];
   private idCounter = 0;
 
+  async setup() : Promise<void>{
 
-  getTodos(): TodoDTO[]{
-    return this.todos;
+    const client = await this.refreshClient()
+
+    try {
+      await client.connect()
+      
+      await client.query("CREATE TABLE IF NOT EXISTS todos (id INTEGER PRIMARY KEY UNIQUE, title VARCHAR(255) NOT NULL, complete BOOLEAN DEFAULT 'false');")
+  
+      await client.query("TRUNCATE TABLE todos;")
+    
+      await client.end()
+      
+    } catch (error) {
+      console.error(error)
+      await client.end()
+    }
   }
 
-  postTodos(todo : string){
-    let newTodo : TodoDTO = {
-      ID: this.idCounter++,
-      title: todo,
-      complete: false
+  async refreshClient() : Promise<Client> {
+    return await new Client({
+      user: 'postgres',
+      database: 'postgres',
+      password: 'example',
+      host:'postgres-todos-svc',
+      port: 5432
+    })
+  }
+
+  async getTodos(): Promise<TodoDTO[]>{
+
+    const client = await this.refreshClient();
+
+    try {
+      
+      const result = (await client.query("SELECT * FROM todos;")).rows; //no way this works
+
+      console.log("heres the result")
+      console.log(result)
+      
+      client.end();
+
+      return result;
+    } catch (error) {
+      console.error(error)
+
+      return [];
     }
-    this.todos.push(newTodo);
+
+  }
+
+  async postTodo(todo : string){
+
+    const client = await this.refreshClient();
+
+    try {
+      await client.query("INSERT INTO todos(id, title, complete) VALUES ($1,$2,$3);",[this.idCounter++,todo,false])
+      
+      await client.end();
+
+    } catch (error) {
+      console.error(error)
+    }
+
+
+    // this.todos.push(newTodo);
   }
 }

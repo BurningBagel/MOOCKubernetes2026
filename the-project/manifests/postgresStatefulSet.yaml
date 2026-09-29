@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-todos-stset
+  namespace: project
+spec:
+  selector:
+    matchLabels:
+      app: postgres-todos-app
+  replicas: 1
+  updateStrategy:
+    type: RollingUpdate
+  serviceName: postgres-todos-svc
+  podManagementPolicy: OrderedReady
+  volumeClaimTemplates:
+    - kind: PersistentVolumeClaim
+      apiVersion: v1
+      metadata:
+        labels: {}
+        annotations: {}
+        name: postgres-todos-data-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Mi
+        storageClassName: local-path
+  template:
+    metadata:
+      labels:
+        app: postgres-todos-app
+    spec:
+      containers:
+        - name: postgres-todos-container
+          image: postgres
+          imagePullPolicy: Always
+          env:
+          - name: POSTGRES_PASSWORD
+            value: "example"
+          ports:
+            - name: web
+              containerPort: 5432
+          volumeMounts:
+            - name: postgres-todos-data-storage
+              mountPath: /data
+              subPath: ''
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-todos-svc
+  namespace: exercises
+  labels:
+    app: postgres-todos-app
+spec:
+  ports:
+  - port: 5432
+    name: web
+  clusterIP: None
+  selector:
+    app: postgres-todos-app

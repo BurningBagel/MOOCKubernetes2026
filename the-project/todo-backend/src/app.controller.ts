@@ -1,18 +1,17 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import type { TodoDTO } from './shared/todo.dto';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get('/todos')
-  getTodos(): string {
-    return JSON.stringify(this.appService.getTodos());
+  async getTodos(): Promise<string> {
+    return await JSON.stringify(this.appService.getTodos());
   }
 
   @Post('/todos')
-  postTodos(@Body() todo) : void {
-    this.appService.postTodos(todo.todo);
+  async postTodos(@Body() body) : Promise<void> {
+    await this.appService.postTodo(body.todo);
   }
 }
