@@ -38,18 +38,17 @@ export class AppService {
 
   async getTodos(): Promise<TodoDTO[]>{
 
+    console.log("GET TODOS CALLED")
+    
     const client = await this.refreshClient();
-
+    
     try {
-      
-      const result = (await client.query("SELECT * FROM todos;")).rows; //no way this works
-
-      console.log("heres the result")
+      await client.connect();
+      const result = await client.query("SELECT * FROM todos;");
       console.log(result)
-      
       client.end();
 
-      return result;
+      return result.rows;
     } catch (error) {
       console.error(error)
 
@@ -63,6 +62,8 @@ export class AppService {
     const client = await this.refreshClient();
 
     try {
+      await client.connect();
+
       await client.query("INSERT INTO todos(id, title, complete) VALUES ($1,$2,$3);",[this.idCounter++,todo,false])
       
       await client.end();

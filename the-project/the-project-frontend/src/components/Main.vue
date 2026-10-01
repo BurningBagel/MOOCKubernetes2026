@@ -151,14 +151,13 @@ async function getDataFromBackend(){
 
     const response = await fetch(TODO_BACKEND)
     if(response.ok){
-        let anchor = await response.text();
         todos.length = 0;
-        if(anchor != ""){
-            const data : TodoDTO[] = JSON.parse(anchor);
-            data.forEach((todo) => {
-                todos.push(todo);
-            });
-        }
+        const data : TodoDTO[] = await response.json();
+        console.log("data: ", data)
+        console.log("data array?", Array.isArray(data))
+        console.log("JSON: ", JSON.stringify(data))
+        todos.push(...data) //<- this throws an error: data is not iterable
+        
     }
     loading.value = false;
 }
