@@ -28,9 +28,9 @@ export class AppService {
 
   async refreshClient() : Promise<Client> {
     return await new Client({
-      user: 'postgres',
+      user: process.env.TODO_DATABASE_USERNAME,
       database: 'postgres',
-      password: 'example',
+      password: process.env.TODO_DATABASE_PASSWORD,
       host:'postgres-todos-svc',
       port: 5432
     })
