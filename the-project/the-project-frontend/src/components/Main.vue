@@ -153,9 +153,9 @@ async function getDataFromBackend(){
     if(response.ok){
         todos.length = 0;
         const data : TodoDTO[] = await response.json();
-        console.log("data: ", data)
-        console.log("data array?", Array.isArray(data))
-        console.log("JSON: ", JSON.stringify(data))
+        // console.log("data: ", data)
+        // console.log("data array?", Array.isArray(data))
+        // console.log("JSON: ", JSON.stringify(data))
         todos.push(...data) //<- this throws an error: data is not iterable
         
     }

@@ -17,6 +17,9 @@ spec:
         - name: todo-backend
           image: todo-backend:latest
           imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: the-project-config-map
           env:
           - name: PORT
             value: "3000"

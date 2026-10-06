@@ -29,23 +29,22 @@ export class AppService {
   async refreshClient() : Promise<Client> {
     return await new Client({
       user: process.env.TODO_DATABASE_USERNAME,
-      database: 'postgres',
+      database: process.env.TODO_DATABASE_DATABASE,
       password: process.env.TODO_DATABASE_PASSWORD,
-      host:'postgres-todos-svc',
-      port: 5432
+      host:process.env.TODO_DATABASE_HOST,
+      port: Number(process.env.TODO_DATABASE_PORT)
     })
   }
 
   async getTodos(): Promise<TodoDTO[]>{
 
-    console.log("GET TODOS CALLED")
     
     const client = await this.refreshClient();
     
     try {
       await client.connect();
       const result = await client.query("SELECT * FROM todos;");
-      console.log(result)
+      // console.log(result)
       client.end();
 
       return result.rows;

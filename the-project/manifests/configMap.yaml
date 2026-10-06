@@ -9,6 +9,9 @@ data:
   TODO_BACKEND: "/todos/"
   TODO_DATABASE_USERNAME: "postgres"
   TODO_DATABASE_PASSWORD: "example"
+  TODO_DATABASE_DATABASE: "postgres"
+  TODO_DATABASE_HOST: "postgres-todos-svc"
+  TODO_DATABASE_PORT: "5432"
   .env: |
     VITE_TODO_BACKEND=/todos/
     VITE_LOREM_PICSUM_FILE_PATH=/lorem_img.png
