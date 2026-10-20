@@ -10,6 +10,7 @@ export class AppService {
   // private filePath = path.join(this.directory, 'pingpongcount.txt')
 
   private pingPongCounter = 0;
+  private ready = false;
 
   // pingPong(): string {
   //   let content = this.pingPongCounter + 1;
@@ -23,6 +24,10 @@ export class AppService {
 
   //   return 'pong ' + String(this.pingPongCounter++);
   // }
+
+  getReady() : boolean {
+    return this.ready;
+  }
 
   async connectClient() : Promise<Client>{
     return await new Client({
@@ -47,6 +52,8 @@ export class AppService {
       await client.query("INSERT INTO pingpong (pingpongcount) VALUES (0);")
   
       await client.end()
+
+      this.ready = true;
       
     } catch (error) {
       console.error(error)

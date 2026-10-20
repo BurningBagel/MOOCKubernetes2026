@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - manifests/ingress.yaml
+  - manifests/persistentVolume.yaml
+  - manifests/persistentVolumeClaim.yaml
+  - manifests/postgresStatefulSet.yaml
+  - log-output/manifests/deployment.yaml
+  - log-output/manifests/service.yaml
+  - log-output/manifests/configMap.yaml
+  - ping-pong/manifests/deployment.yaml
+  - ping-pong/manifests/service.yaml

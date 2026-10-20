@@ -21,6 +21,12 @@ spec:
         - name: ping-pong
           image: ping-pong:latest
           imagePullPolicy: IfNotPresent
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /ready
+              port: 3000
           # volumeMounts:
           #   - name: ping-pong-count
           #     mountPath: /usr/src/app/count
