@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { TodoDTO } from './shared/todo.dto';
 import { Client } from 'pg';
 
@@ -6,6 +6,7 @@ import { Client } from 'pg';
 export class AppService {
   private todos : TodoDTO[] = [];
   private idCounter = 0;
+  private readonly logger = new Logger(AppService.name)
 
   async setup() : Promise<void>{
 
@@ -59,6 +60,13 @@ export class AppService {
   async postTodo(todo : string){
 
     const client = await this.refreshClient();
+
+    this.logger.log(`Incoming TODO: ${todo}`)
+    
+    if(todo.length > 140){
+      this.logger.error(`Received TODO is too long! ${todo.length} characters`)
+      return
+    }
 
     try {
       await client.connect();
