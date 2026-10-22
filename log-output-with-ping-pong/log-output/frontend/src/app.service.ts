@@ -14,6 +14,8 @@ export class AppService {
 
   configDirectory = path.join('/', 'usr', 'src', 'app', 'config')
   configFilePath = path.join(this.configDirectory, 'information.txt')
+
+  private ready : boolean = false;
   
   // pingpongDirectory = path.join('/', 'usr', 'src', 'app', 'count')
   // pingpongFilePath = path.join(this.pingpongDirectory, 'pingpongcount.txt')
@@ -21,6 +23,21 @@ export class AppService {
   delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
   content = "";
+
+  async getReady() : Promise<boolean>{
+    if(this.ready) return this.ready;
+
+    const response = await fetch('http://ping-pong-svc:2345/pings')
+
+    if(response.ok){
+      this.ready = true;
+      return true;
+    }
+    else{
+      return false;
+    }
+    
+  }
 
 
   async updateContent() {

@@ -42,6 +42,12 @@ spec:
               mountPath: /usr/src/app/config
             # - name: ping-pong-count
             #   mountPath: /usr/src/app/count
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /ready
+              port: 3000
         - name: backend
           image: backend:latest
           imagePullPolicy: IfNotPresent
