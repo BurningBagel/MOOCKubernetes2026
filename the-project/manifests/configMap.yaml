@@ -14,4 +14,6 @@ data:
   TODO_DATABASE_PORT: "5432"
   .env: |
     VITE_TODO_BACKEND=/todos/
+    VITE_TODO_HEALTH_CHECK=/health/
+    VITE_TODO_HEALTH_BREAK=/break/
     VITE_LOREM_PICSUM_FILE_PATH=/lorem_img.png

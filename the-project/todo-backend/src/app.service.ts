@@ -7,6 +7,7 @@ export class AppService {
   private todos : TodoDTO[] = [];
   private idCounter = 0;
   private readonly logger = new Logger(AppService.name)
+  private healthy = true;
 
   async setup() : Promise<void>{
 
@@ -25,6 +26,14 @@ export class AppService {
       console.error(error)
       await client.end()
     }
+  }
+
+  getHealth() : boolean{
+    return this.healthy;
+  }
+
+  breakHealth() {
+    this.healthy = false;
   }
 
   async refreshClient() : Promise<Client> {

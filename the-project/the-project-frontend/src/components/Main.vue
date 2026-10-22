@@ -1,5 +1,5 @@
 <template>
-    <div class="container" >
+    <div v-if="healthy" class="container" >
         <h1 style="font-weight: bold; color: black;">The Project</h1>
         <!-- <img src="/usr/src/app/data/lorem_img.png" height="300px" width="300px" alt="random image from lorem picsum"> -->
         <img v-bind:src="LOREM_PICSUM_FILE_PATH" height="300px" width="300px" alt="random image from lorem picsum">
@@ -22,12 +22,29 @@
         <div v-else>
             <p>Loading...</p>
         </div>
+        <div>
+            <button v-on:click="breakSite" class="break-button">Break Site</button>
+        </div>
+    </div>
+    <div v-else>
+        SORRY, SYSTEM FAILURE!
     </div>
 </template>
 
 <style lang="css" scoped>
 
-TodoItem{
+.break-button{
+    color: white;
+    font-size: large;
+    background-color: red;
+    border-width: 0;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+TodoItem {
     width: 100%;
     border-radius: 5px;
 }
@@ -99,10 +116,11 @@ import { ref } from 'vue';
 import type { TodoDTO } from '../shared/todo.dto.ts';
 import TodoItem from './TodoItem.vue';
 
-
 //const TODO_BACKEND = "http://localhost:3001/"; // FOR TESTING
 //const TODO_BACKEND = "http://localhost:8081/";
 const TODO_BACKEND = import.meta.env.VITE_TODO_BACKEND;
+const TODO_BACKEND_BREAK = import.meta.env.VITE_TODO_HEALTH_BREAK;
+const TODO_BACKEND_HEALTH = import.meta.env.VITE_TODO_HEALTH_CHECK;
 
 const LOREM_PICSUM_FILE_PATH = import.meta.env.VITE_LOREM_PICSUM_FILE_PATH;
 
@@ -128,6 +146,16 @@ const placeholderTodos : TodoDTO[] = [
 
 let inputText = ref('');
 let loading = ref(false);
+let healthy = ref(true);
+
+
+function breakSite(){
+    healthy.value = false;
+    fetch(TODO_BACKEND_BREAK,{
+        method: 'GET'
+    })
+
+}
 
 async function addTodo(){
     const response = await fetch(TODO_BACKEND,{ 
@@ -146,6 +174,10 @@ async function addTodo(){
 
 async function getDataFromBackend(){
     loading.value = true;
+
+    const healthCheck = await fetch(TODO_BACKEND_HEALTH)
+
+    healthy.value = healthCheck.ok;
     
     todos.splice(0,todos.length,...placeholderTodos);
 
