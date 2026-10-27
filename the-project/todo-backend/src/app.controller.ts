@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 import { TodoDTO } from './shared/todo.dto';
 import type {Response} from 'express';
@@ -10,6 +10,11 @@ export class AppController {
   @Get('/todos')
   async getTodos(): Promise<TodoDTO[]> {
     return await this.appService.getTodos();
+  }
+
+  @Put('/todos')
+  async putTodo(@Body() body) : Promise<void> {
+    await this.appService.putTodo(body.todoID)
   }
 
   @Post('/todos')

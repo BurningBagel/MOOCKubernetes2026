@@ -28,6 +28,19 @@ export class AppService {
     }
   }
 
+  async putTodo(todoID : number) {
+    const client = await this.refreshClient()
+
+    try {
+      await client.connect()
+
+      await client.query("")
+    } catch (error) {
+      
+    }
+
+  }
+
   getHealth() : boolean{
     return this.healthy;
   }
