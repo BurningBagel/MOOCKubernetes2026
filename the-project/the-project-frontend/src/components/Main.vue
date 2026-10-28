@@ -17,7 +17,7 @@
             <TodoItem title="Go for a run" />
         </div> -->
         <div v-if="!loading" class="todos_container">
-            <TodoItem v-for="todo in todos" :key="todo.ID" :title="todo.title" :complete="todo.complete" @button-pressed="buttonPressed(todo.ID)"/>
+            <TodoItem v-for="todo in todos" :key="todo.ID" :title="todo.title" :complete="todo.complete" @done-pressed="donePressed(todo.ID)"/>
         </div>
         <div v-else>
             <p>Loading...</p>
@@ -157,17 +157,21 @@ function breakSite(){
 
 }
 
-async function buttonPressed(todo : TodoDTO){
+async function donePressed(todoID : number){
     const response = await fetch(TODO_BACKEND,{
         method: 'PUT',
-        body: JSON.stringify({'todoID':todo.ID}),
+        body: JSON.stringify({'todoID':todoID}),
         headers: {
             'Content-Type': 'application/json'
         }
     })
+    
 
     if(!response.ok){
         throw new Error('ERROR FINISHING TODO: ' + response.statusText)
+    }
+    else{
+        getDataFromBackend();
     }
 }
 

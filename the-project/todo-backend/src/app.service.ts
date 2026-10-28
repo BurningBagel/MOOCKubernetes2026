@@ -34,9 +34,12 @@ export class AppService {
     try {
       await client.connect()
 
-      await client.query("")
+      await client.query("UPDATE todos SET complete = true WHERE id = $1;",[todoID])
+
+      await client.end()
     } catch (error) {
-      
+      console.error(error)
+      await client.end()
     }
 
   }
