@@ -1,5 +1,5 @@
 export interface TodoDTO{
-    ID: number,
+    id: number,
     title: string,
     complete: boolean
 }

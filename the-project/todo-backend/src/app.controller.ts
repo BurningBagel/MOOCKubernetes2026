@@ -1,7 +1,7 @@
-import { Body, Controller, Get, HttpStatus, Post, Res, Put } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Res, Put, Logger } from '@nestjs/common';
 import { AppService } from './app.service';
 import { TodoDTO } from './shared/todo.dto';
-import type {Response} from 'express';
+import type { Response } from 'express';
 
 @Controller()
 export class AppController {
@@ -14,11 +14,15 @@ export class AppController {
 
   @Put('/todos')
   async putTodo(@Body() body) : Promise<void> {
+    console.log(body)
+    Logger.log(`Incoming PUT todo: ${body.todoID}`)
     await this.appService.putTodo(body.todoID)
   }
 
   @Post('/todos')
   async postTodos(@Body() body) : Promise<void> {
+    console.log(body)
+    Logger.log(`Incoming POST todo: ${body.todo}`)
     await this.appService.postTodo(body.todo);
   }
 

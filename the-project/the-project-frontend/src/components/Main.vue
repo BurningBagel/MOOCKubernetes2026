@@ -17,7 +17,7 @@
             <TodoItem title="Go for a run" />
         </div> -->
         <div v-if="!loading" class="todos_container">
-            <TodoItem v-for="todo in todos" :key="todo.ID" :title="todo.title" :complete="todo.complete" @done-pressed="donePressed(todo.ID)"/>
+            <TodoItem v-for="todo in todos" :key="todo.id" :title="todo.title" :complete="todo.complete" @done-pressed="donePressed(todo.id)"/>
         </div>
         <div v-else>
             <p>Loading...</p>
@@ -128,17 +128,17 @@ const todos : TodoDTO[] = [];
 
 const placeholderTodos : TodoDTO[] = [
     {
-        'ID': 0,
+        'id': 0,
         'title': "",
         'complete': true
     },
     {
-        'ID': 1,
+        'id': 1,
         'title': "",
         "complete": false
     },
     {
-        'ID': 2,
+        'id': 2,
         'title': '',
         'complete': true
     }
@@ -158,6 +158,7 @@ function breakSite(){
 }
 
 async function donePressed(todoID : number){
+    console.log(todoID)
     const response = await fetch(TODO_BACKEND,{
         method: 'PUT',
         body: JSON.stringify({'todoID':todoID}),
