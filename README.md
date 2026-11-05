@@ -40,3 +40,5 @@ Submissions for MOOC Kubernetes course 2026
 * [4.1](https://github.com/BurningBagel/MOOCKubernetes2026/tree/4.1/log-output-with-ping-pong)
 * [4.2](https://github.com/BurningBagel/MOOCKubernetes2026/tree/4.2/the-project)
 * [4.3](https://github.com/BurningBagel/MOOCKubernetes2026/tree/4.3/)(query is "sum(kube_pod_info{namespace='monitoring',created_by_kind='StatefulSet'})")
+* [4.4](https://github.com/BurningBagel/MOOCKubernetes2026/tree/4.4/log-output-with-ping-pong)
+* [4.5](https://github.com/BurningBagel/MOOCKubernetes2026/tree/4.5/the-project)
