@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: cpu-restart
+spec:
+  metrics:
+  - name: cpu-restart
+    initialDelay: 2m
+    successCondition: result < 50
+    provider:
+      prometheus:
+        address: http://prom-prometheus-server.monitoring.svc.cluster.local:9090
+        query: |
+          sum(
+            rate(
+            container_cpu_usage_seconds_total{
+            namespace="exercises",
+            image!=""
+            }[2m]
+            )
+          ) * 100
