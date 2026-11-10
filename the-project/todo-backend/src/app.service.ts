@@ -1,6 +1,7 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { TodoDTO } from './shared/todo.dto';
 import { Client } from 'pg';
+import { ClientProxy } from '@nestjs/microservices';
 
 @Injectable()
 export class AppService {
@@ -8,6 +9,8 @@ export class AppService {
   private idCounter = 0;
   private readonly logger = new Logger(AppService.name)
   private healthy = true;
+
+  constructor(@Inject('NATS_SERVICE') private readonly natsClient: ClientProxy){}
 
   async setup() : Promise<void>{
 
@@ -96,12 +99,20 @@ export class AppService {
     try {
       await client.connect();
 
-      await client.query("INSERT INTO todos(id, title, complete) VALUES ($1,$2,$3);",[this.idCounter++,todo,false])
+      await client.query("INSERT INTO todos(id, title, complete) VALUES ($1,$2,$3);",[this.idCounter,todo,false])
       
       await client.end();
 
+      this.natsClient.emit('todo_created',{
+        id: this.idCounter,
+        text: todo
+      })
+
     } catch (error) {
       console.error(error)
+    }
+    finally{
+      this.idCounter++;
     }
 
 
