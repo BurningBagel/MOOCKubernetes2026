@@ -6,6 +6,7 @@ resources:
   - manifests/postgresStatefulSet.yaml
   - manifests/deployment.yaml
   - manifests/todo-deployment.yaml
+  - manifests/broadcasterDeployment.yaml
   - manifests/service.yaml
   - manifests/todo-service.yaml
   - manifests/configMap.yaml

@@ -8,6 +8,7 @@ export class BroadcasterController {
 
   @EventPattern('todo_created')
   handleTodoCreated(@Payload() data: any){
-    
+    // this.broadcasterService.testService(data)
+    this.broadcasterService.forwardMessage(data)
   }
 }

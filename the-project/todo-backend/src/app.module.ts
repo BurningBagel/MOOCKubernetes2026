@@ -10,7 +10,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices'
         name: 'NATS_SERVICE',
         transport: Transport.NATS,
         options: {
-          servers: ['nats://my-nats.nats:4222']
+          servers: [String(process.env.NATS_ADDRESS)] //TODO change to env
         }
       }
     ])

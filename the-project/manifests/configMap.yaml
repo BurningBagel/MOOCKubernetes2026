@@ -12,6 +12,7 @@ data:
   TODO_DATABASE_DATABASE: "postgres"
   TODO_DATABASE_HOST: "postgres-todos-svc"
   TODO_DATABASE_PORT: "5432"
+  NATS_ADDRESS: "nats://my-nats.nats:4222"
   .env: |
     VITE_TODO_BACKEND=/todos/
     VITE_TODO_HEALTH_CHECK=/health/
