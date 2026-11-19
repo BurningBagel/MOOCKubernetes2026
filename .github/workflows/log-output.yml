@@ -4,8 +4,8 @@ on:
   push:
     branches: [main]
     paths:
-      - "log-output/**"
-      - ".github/workflows/release-log-output.yaml"
+      - "log-output-with-ping-pong/**"
+      - ".github/workflows/log-output.yaml"
 
 permissions:
   contents: write
@@ -24,13 +24,13 @@ jobs:
 
       - name: Build and push images
         run: |
-          docker build -t burningbagel/log-output-frontend:$GITHUB_SHA log-output/frontend
+          docker build -t burningbagel/frontend:$GITHUB_SHA log-output-with-ping-pong/log-output/frontend
           docker push burningbagel/log-output-frontend:$GITHUB_SHA
 
-          docker build -t burningbagel/log-output-backend:$GITHUB_SHA log-output/backend
+          docker build -t burningbagel/log-output-backend:$GITHUB_SHA log-output-with-ping-pong/log-output/backend
           docker push burningbagel/log-output-backend:$GITHUB_SHA
 
-          docker build -t burningbagel/ping-pong:$GITHUB_SHA log-output/ping-pong
+          docker build -t burningbagel/ping-pong:$GITHUB_SHA log-output-with-ping-pong/ping-pong
           docker push burningbagel/ping-pong:$GITHUB_SHA
 
       - uses: imranismail/setup-kustomize@v3
@@ -39,11 +39,11 @@ jobs:
         working-directory: log-output
         run: |
           kustomize edit set image \
-            PROJECT/LOG-OUTPUT-FRONTEND=burningbagel/log-output-frontend:$GITHUB_SHA \
-            PROJECT/LOG-OUTPUT-BACKEND=burningbagel/log-output-backend:$GITHUB_SHA \
-            PROJECT/PING-PONG=burningbagel/ping-pong:$GITHUB_SHA
+            frontend=burningbagel/log-output-frontend:$GITHUB_SHA \
+            backend=burningbagel/log-output-backend:$GITHUB_SHA \
+            ping-pong=burningbagel/ping-pong:$GITHUB_SHA
 
       - uses: EndBug/add-and-commit@v10
         with:
-          add: "log-output/kustomization.yaml"
+          add: "log-output-with-ping-pong/kustomization.yaml"
           message: "Release log-output ${{ github.sha }}"
