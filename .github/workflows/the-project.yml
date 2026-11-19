@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "the-project/**"
-      - ".github/workflows/release-the-project.yaml"
+      - ".github/workflows/the-project.yaml"
 
 permissions:
   contents: write
@@ -39,9 +39,9 @@ jobs:
         working-directory: the-project
         run: |
           kustomize edit set image \
-            PROJECT/THE-PROJECT-FRONTEND=burningbagel/the-project-frontend:$GITHUB_SHA \
-            PROJECT/THE-PROJECT-BACKEND=burningbagel/the-project-backend:$GITHUB_SHA \
-            PROJECT/TODO-BACKEND=burningbagel/todo-backend:$GITHUB_SHA
+            the-project-frontend=burningbagel/the-project-frontend:$GITHUB_SHA \
+            the-project-backend=burningbagel/the-project-backend:$GITHUB_SHA \
+            todo-backend=burningbagel/todo-backend:$GITHUB_SHA
 
       - uses: EndBug/add-and-commit@v10
         with:
