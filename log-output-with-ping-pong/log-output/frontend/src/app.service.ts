@@ -46,7 +46,7 @@ export class AppService {
       try {
         fs.readFile(this.filePath, 'utf8', (err, data) => {
           this.content = "";
-          this.content = data;
+          this.content = String(data);
         });
 
       } catch (error) {
