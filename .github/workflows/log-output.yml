@@ -5,7 +5,7 @@ on:
     branches: [main]
     paths:
       - "log-output-with-ping-pong/**"
-      - ".github/workflows/log-output.yaml"
+      - ".github/workflows/log-output.yml"
 
 permissions:
   contents: write
@@ -25,10 +25,10 @@ jobs:
       - name: Build and push images
         run: |
           docker build -t burningbagel/frontend:$GITHUB_SHA log-output-with-ping-pong/log-output/frontend
-          docker push burningbagel/log-output-frontend:$GITHUB_SHA
+          docker push burningbagel/frontend:$GITHUB_SHA
 
           docker build -t burningbagel/log-output-backend:$GITHUB_SHA log-output-with-ping-pong/log-output/backend
-          docker push burningbagel/log-output-backend:$GITHUB_SHA
+          docker push burningbagel/backend:$GITHUB_SHA
 
           docker build -t burningbagel/ping-pong:$GITHUB_SHA log-output-with-ping-pong/ping-pong
           docker push burningbagel/ping-pong:$GITHUB_SHA
@@ -36,7 +36,7 @@ jobs:
       - uses: imranismail/setup-kustomize@v3
 
       - name: Update deployed image tags
-        working-directory: log-output
+        working-directory: log-output-with-ping-pong
         run: |
           kustomize edit set image \
             frontend=burningbagel/log-output-frontend:$GITHUB_SHA \
