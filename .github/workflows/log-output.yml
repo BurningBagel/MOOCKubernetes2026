@@ -27,7 +27,7 @@ jobs:
           docker build -t burningbagel/frontend:$GITHUB_SHA log-output-with-ping-pong/log-output/frontend
           docker push burningbagel/frontend:$GITHUB_SHA
 
-          docker build -t burningbagel/log-output-backend:$GITHUB_SHA log-output-with-ping-pong/log-output/backend
+          docker build -t burningbagel/backend:$GITHUB_SHA log-output-with-ping-pong/log-output/backend
           docker push burningbagel/backend:$GITHUB_SHA
 
           docker build -t burningbagel/ping-pong:$GITHUB_SHA log-output-with-ping-pong/ping-pong
@@ -39,8 +39,8 @@ jobs:
         working-directory: log-output-with-ping-pong
         run: |
           kustomize edit set image \
-            frontend=burningbagel/log-output-frontend:$GITHUB_SHA \
-            backend=burningbagel/log-output-backend:$GITHUB_SHA \
+            frontend=burningbagel/frontend:$GITHUB_SHA \
+            backend=burningbagel/backend:$GITHUB_SHA \
             ping-pong=burningbagel/ping-pong:$GITHUB_SHA
 
       - uses: EndBug/add-and-commit@v10
