@@ -33,6 +33,9 @@ jobs:
           docker build -t burningbagel/todo-backend:$GITHUB_SHA the-project/todo-backend
           docker push burningbagel/todo-backend:$GITHUB_SHA
 
+          docker build -t burningbagel/broadcaster:$GITHUB_SHA the-project/broadcaster
+          docker push burningbagel/broadcaster:$GITHUB_SHA
+
       - uses: imranismail/setup-kustomize@v3
 
       - name: Update deployed image tags
@@ -42,6 +45,7 @@ jobs:
             the-project-frontend=burningbagel/the-project-frontend:$GITHUB_SHA \
             the-project-backend=burningbagel/the-project-backend:$GITHUB_SHA \
             todo-backend=burningbagel/todo-backend:$GITHUB_SHA
+            broadcaster=burningbagel/broadcaster:$GITHUB_SHA
 
       - uses: EndBug/add-and-commit@v10
         with:
